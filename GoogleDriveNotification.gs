@@ -2,7 +2,7 @@
 var folderId = 'YOUR_FOLDER_ID';
 
 // Replace 'YOUR_EMAIL_ADDRESS' with the email address where you want to receive notifications
-var emailAddress = 'YOUR_EMAIL_ADDRESS';
+var emailAddresses = ['YOUR_EMAIL_ADDRESS_1', 'YOUR_EMAIL_ADDRESS_2'];
 
 // Script information for tracking last execution time
 var scriptInfo = {
