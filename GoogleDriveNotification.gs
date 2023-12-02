@@ -2,7 +2,7 @@
 var folderId = 'YOUR_FOLDER_ID';
 
 // Replace 'YOUR_EMAIL_ADDRESS' with the email address where you want to receive notifications
-var emailAddresses = ['YOUR_EMAIL_ADDRESS_1', 'YOUR_EMAIL_ADDRESS_2'];
+var emailAddress1 = 'YOUR_EMAIL_ADDRESS' + ',' + 'YOUR_EMAIL_ADDRESS'
 
 // Script information for tracking last execution time
 var scriptInfo = {
@@ -84,14 +84,17 @@ function processFolder(folder, scriptName) {
 }
 
 function sendEmailNotification(fileName, fileUrl, scriptName) {
-  var subject = 'File Upload Notification - IBCF Sermon Google Folders' + fileName;
-  var body = 'A new video has been uploaded:\n\n' +
+  var subject = 'File Upload Notification - ' + fileName;
+  var body = 'A file  has been uploaded to the FOLDERNAME:\n\n\n\n\n' +
     'File Name: ' + fileName + '\n' +
     'File URL: ' + fileUrl + '\n\n\n' +
-    'Thank You';
-
+    'Thank You\n'  +
+    'Automated Email\n\n';
   // Send email
-  MailApp.sendEmail(emailAddress, subject, body);
+  MailApp.sendEmail({
+      to:emailAddress1,
+      subject, body
+  });
 }
 
 function markFileAsProcessed(fileId) {
@@ -116,4 +119,3 @@ function getProcessedFiles() {
 function doGet(e) {
   return HtmlService.createHtmlOutput('Script is deployed as a web app. It does not have a user interface. Please contact the administrator for any issues.');
 }
-
