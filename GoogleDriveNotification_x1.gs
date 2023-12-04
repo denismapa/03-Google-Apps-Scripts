@@ -1,8 +1,8 @@
 // Replace 'YOUR_FOLDER_ID' with the actual ID of the folder you want to monitor
-var folderId = 'YOUR_FOLDER_ID';
+var folderId = '1ym2Z-AaU2GAi0bPqCBFL7A4UmS_T8U-3';
 
 // Replace 'YOUR_EMAIL_ADDRESS' with the email address where you want to receive notifications
-var emailAddress1 = 'YOUR_EMAIL_ADDRESS';
+var emailAddress1 = 'denis.mapa@gmail.com';
 
 // Script information for tracking last execution time
 var scriptInfo = {
@@ -101,7 +101,7 @@ function sendEmailNotification(fileName, fileUrl, folderId, scriptName) {
   var folderUrl = folder.getUrl();
 
   var subject = 'File Upload Notification - ' + fileName;
-  var body = 'A file has been uploaded:\n\n' + folderUrl;
+  var body = 'A file has been uploaded:\n\n' + folderUrl
     'File Name: ' + fileName + '\n' +
     'File URL: ' + fileUrl + '\n' +
     'Folder URL: ' + folderUrl + '\n\n\n' +
