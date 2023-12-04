@@ -2,7 +2,7 @@
 var folderId = 'YOUR_FOLDER_ID';
 
 // Replace 'YOUR_EMAIL_ADDRESS' with the email address where you want to receive notifications
-var emailAddress = 'YOUR_EMAIL_ADDRESS';
+var emailAddress1 = 'YOUR_EMAIL_ADDRESS';
 
 // Script information for tracking last execution time
 var scriptInfo = {
@@ -13,11 +13,24 @@ var scriptInfo = {
 };
 
 function createDriveAppTrigger() {
+  // Delete existing triggers before creating a new one
+  deleteTriggers();
+
   // Trigger the checkForNewFiles function every 5 minutes
   ScriptApp.newTrigger('checkForNewFiles')
     .timeBased()
     .everyMinutes(5)
     .create();
+}
+
+function deleteTriggers() {
+  // Get all existing triggers
+  var triggers = ScriptApp.getProjectTriggers();
+
+  // Delete each trigger
+  for (var i = 0; i < triggers.length; i++) {
+    ScriptApp.deleteTrigger(triggers[i]);
+  }
 }
 
 function checkForNewFiles() {
@@ -68,7 +81,7 @@ function processFolder(folder, scriptName) {
         console.log('File Found - Name:', file.getName(), 'URL:', file.getUrl());
 
         // Send email notification with script name
-        sendEmailNotification(file.getName(), file.getUrl(), scriptName);
+        sendEmailNotification(file.getName(), file.getUrl(), folder.getId(), scriptName);
 
         // Add the file ID to the processed list to avoid duplicate notifications
         markFileAsProcessed(fileId);
@@ -83,15 +96,24 @@ function processFolder(folder, scriptName) {
   }
 }
 
-function sendEmailNotification(fileName, fileUrl, scriptName) {
-  var subject = 'ENTER SUBJECT' + fileName;
-  var body = 'ENTER MESSAGE:\n\n' +
-    'File Name: ' + fileName + '\n' +
-    'File URL: ' + fileUrl + '\n\n\n' +
-    'Thank You';
+function sendEmailNotification(fileName, fileUrl, folderId, scriptName) {
+  var folder = DriveApp.getFolderById(folderId);
+  var folderUrl = folder.getUrl();
 
+  var subject = 'File Upload Notification - ' + fileName;
+  var body = 'A file has been uploaded:\n\n' + folderUrl;
+    'File Name: ' + fileName + '\n' +
+    'File URL: ' + fileUrl + '\n' +
+    'Folder URL: ' + folderUrl + '\n\n\n' +
+    'Thank You\n'  +
+    'Automated Email\n\n';
+  
   // Send email
-  MailApp.sendEmail(emailAddress, subject, body);
+  MailApp.sendEmail({
+      to: emailAddress1,
+      subject: subject,
+      body: body,
+  });
 }
 
 function markFileAsProcessed(fileId) {
@@ -115,5 +137,13 @@ function getProcessedFiles() {
 
 function doGet(e) {
   return HtmlService.createHtmlOutput('Script is deployed as a web app. It does not have a user interface. Please contact the administrator for any issues.');
+}
+
+// Delete all triggers associated with the script
+function deleteAllTriggers() {
+  var allTriggers = ScriptApp.getProjectTriggers();
+  for (var i = 0; i < allTriggers.length; i++) {
+    ScriptApp.deleteTrigger(allTriggers[i]);
+  }
 }
 
